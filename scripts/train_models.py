@@ -1,12 +1,16 @@
 import pandas as pd
 import numpy as np
 import os, json, itertools
-from generate_model import gb_model
+from generate_model import *
 from collections import Counter
 import matplotlib.pyplot as plt
 
 #Load Premade dataframe that merges all 4 provided datasets
 df_merged = pd.read_pickle('../data/AllDataMerged.pkl')
+
+#The CONTIGUOUS variable is actually in the dropdown image so lets make it numerical
+df_merged.CONTIGUOUS = 1*(df_merged.CONTIGUOUS.fillna(0))
+
 with open('../data/variable_names.json', 'r') as fp:
     variable_translate = json.load(fp)
     #Define parameters for GradientBoostedClassfier
@@ -35,7 +39,7 @@ f1 = []
 features =[]
 for i in state_list:
 
-    a,b,c = gb_model(df_merged, i, n_to_keep=10 , **model_args)
+    a,b,c,d = gb_model_eligible_only(df_merged, i, n_to_keep=10 , **model_args)
 
     feat_dict[i] = a
     features.append(a.index.to_list())
@@ -50,6 +54,9 @@ counts = pd.Series(feature_counts).sort_values(ascending=True)
 counts.nlargest(15).plot(kind='barh')
 plt.show()
 for name in counts.nlargest(15).index:
-    print(variable_translate[name])
+    if name in variable_translate.keys():
+        print(variable_translate[name])
+    else :
+        print(name)
 
 
