@@ -16,13 +16,13 @@ with open('../data/variable_names.json', 'r') as fp:
     variable_translate = json.load(fp)
     #Define parameters for GradientBoostedClassfier
 
-model_args = {'learning_rate':.7, 'n_estimators':75,
-             'subsample':.8,'min_samples_split':2,
-             'min_samples_leaf':1,'max_depth':4,
+model_args = {'learning_rate':.5,
+             'subsample':.9,'min_samples_split':2,
+             'min_samples_leaf':1,'max_depth':5,
              'random_state':333,'max_features':'sqrt',
              'verbose':0,'max_leaf_nodes':None,
              'warm_start':False,'validation_fraction':0.1,
-             'n_iter_no_change':10 }
+             'n_iter_no_change':20 }
 
 
 # Generate a list of the 50 states + DC

@@ -144,7 +144,7 @@ def cleaned_data_model(df, STATE_ID,n_to_keep = 10, drop_pct = 0.2, to_impute = 
         X_train = ss.fit_transform(X_train)
         X_test = ss.transform(X_test)
 
-    clf = GradientBoostingClassifier( **kwargs )
+    clf = GradientBoostingClassifier( n_estimators = int(X.shape[0]/10), **kwargs )
     clf.fit(X_train, y_train)
     cr = classification_report(y_test, clf.predict(X_test), output_dict=True)
     feat_importances = pd.Series(clf.feature_importances_, index=X.columns)
